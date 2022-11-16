@@ -46,6 +46,8 @@ public class DVDController {
                     ui.display(searchResult.toString());
                     edit = ui.editOptions();
                     editOptions(edit, searchResult);
+                } else {
+                    ui.searchFail();
                 }
             } else if (choice == 3){ //User chose to list available DVDs
                 String[] dvdStringsVerbose = new String[DVDs.size()];
@@ -68,7 +70,7 @@ public class DVDController {
      */
     private DVD search(String searchTerm) {
         for (DVD d : DVDs) {
-            if (d.getTitle().contains(searchTerm)) {
+            if (d.getTitle().toLowerCase().contains(searchTerm)) {
                 return d;
             }
         }

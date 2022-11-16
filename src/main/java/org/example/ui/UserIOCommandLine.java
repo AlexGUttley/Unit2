@@ -111,7 +111,7 @@ public class UserIOCommandLine implements UserIO {
      */
     public String searchRequest() { //Talk user through entering a DVD's name to search for
         System.out.println("Enter the name of the film you wish to search for");
-        return scanner.nextLine().trim();
+        return scanner.nextLine().trim().toLowerCase();
     }
 
     private int optionMenu () { //Generates an option menu for user. Used by greet and reOption.
@@ -131,6 +131,7 @@ public class UserIOCommandLine implements UserIO {
         } else if (response.equalsIgnoreCase("Exit") || response.equalsIgnoreCase("4")) {
             responseInt = -1;
         }
+        System.out.println("Input not recognised, please try again.");
         return responseInt;
     }
 
@@ -154,13 +155,45 @@ public class UserIOCommandLine implements UserIO {
     }
 
     /**
+     * Prints out a message saying that the file could not be found, in cases where the search function returns no results.
+     */
+    public void searchFail() {
+        System.out.println("Sorry, that DVD could not be found.");
+    }
+    /**
      * Given an array containing information for a DVD, returns an edited version of that information.
      * Should retrieve any changes from the user, and implement them to the return string array.
      * @param dvdData The supplied data as it exists from the collection.
      * @return The edited data with the user's changes applied.
      */
-    public String[] edit(String[] dvdData) {
-        return dvdData;
+    public String[] edit(String[] dvdData) { //Talk user through adding a new DVD
+        System.out.println("Please enter the new title of the DVD, or press enter to leave it unchanged.");
+        dvdData[0] = scanner.nextLine().replaceAll(",","*");
+        System.out.println("Please enter the DVD's release date, or press enter to leave it unchanged. (DD/MM/YYYY)");
+        dvdData[1] = scanner.nextLine().replaceAll(",","*");
+        System.out.println("Please enter the MPAA rating of the DVD, or press enter to leave it unchanged.");
+        dvdData[2] = scanner.nextLine().replaceAll(",","*");
+        System.out.println("Please input the name of the DVD's director, or press enter to leave it unchanged.");
+        dvdData[3] = scanner.nextLine().replaceAll(",","*");
+        System.out.println("Please input the name of the production studio that produced the DVD, or press enter to leave it unchanged.");
+        dvdData[4] = scanner.nextLine().replaceAll(",","*");
+        while(true){ //Loops until user selects whether or not they would like to add a comment.
+            String response = "";
+            if (dvdData[5].equals("")){
+                System.out.println("Would you like to add a comment? [Yes], [No]");
+                response = scanner.nextLine();
+            }
+            if (response.equalsIgnoreCase("Yes") || dvdData[5].equals("")){
+                System.out.println("Please enter the new comment, or press enter to leave it unchanged.");
+                dvdData[5] = scanner.nextLine().replaceAll(",","*");
+                System.out.println("DVD successfully edited.");
+                return dvdData;
+            } else if (response.equalsIgnoreCase("No")) {
+                System.out.println("DVD successfully edited.");
+                return dvdData;
+            }
+            System.out.println("Input not recognised.");
+        }
     }
 
     /**

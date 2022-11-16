@@ -66,6 +66,11 @@ public interface UserIO {
     String[] edit(String[] DVDData);
 
     /**
+     * Report that the search for a DVD has failed to the user.
+     */
+    void searchFail();
+
+    /**
      *  Report that there has been an error while saving the document, and all changes made during this session will not be committed.
      */
     void savingError();

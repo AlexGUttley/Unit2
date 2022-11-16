@@ -65,14 +65,10 @@ public class DVD {
 
     /**
      * Returns an array containing the object's parameters
-     * @return String array. Note that userNote is omitted if it is blank, meaning array is either length 5 or 6.
+     * @return String array.
      */
     public String[] toStringArray(){
-        if (userNote.equals("")) {
-            return new String[]{title, releaseDate, ratingMPAA, director, studio};
-        } else {
-            return new String[]{title, releaseDate, ratingMPAA, director, studio, userNote};
-        }
+        return new String[]{title, releaseDate, ratingMPAA, director, studio, userNote};
     }
 
 
