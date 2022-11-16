@@ -4,7 +4,6 @@ import org.example.dto.DVD;
 
 /**
  * A generic interface used to ensure correct user interface functionality when used with the DVDController class.
- *
  */
 public interface UserIO {
 

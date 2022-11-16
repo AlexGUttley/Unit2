@@ -62,13 +62,10 @@ public class FileIO implements DataIO {
                 if (!d.getUserNote().equals("")) {
                     output += (", " + d.getUserNote());
                 }
-
                 pw.println(output);
             }
         } catch (FileNotFoundException e) {
-
             System.out.println("Unable to write file: Data for this session has not been saved.");
-            //throw new RuntimeException(e.getCause());
             return false;
         }
         return true;

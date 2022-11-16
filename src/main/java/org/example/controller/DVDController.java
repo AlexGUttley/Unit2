@@ -8,6 +8,10 @@ import org.example.ui.UserIOCommandLine;
 
 import java.util.ArrayList;
 
+/**
+ * Main controller for the DVD collection interface program.
+ * Handles communication between file I/O, user interface, and data.
+ */
 public class DVDController {
 
     DataIO databaseManager;
@@ -15,10 +19,8 @@ public class DVDController {
     UserIO ui;
 
     /**
-     * Main controller for the DVD collection interface program.
-     * Handles communication between file I/O, user interface, and data.
+     * Instantiates the working database, as well as the UI and database management classes.
      */
-    //main controller, handles the program's logic
     public DVDController() {
         databaseManager = new FileIO();
         DVDs = databaseManager.readList();
@@ -46,7 +48,7 @@ public class DVDController {
                     editOptions(edit, searchResult);
                 }
             } else if (choice == 3){ //User chose to list available DVDs
-                String[] dvdStringsVerbose = new String[DVDs.size()]; //Disposable, refactor to array
+                String[] dvdStringsVerbose = new String[DVDs.size()];
                 int i = 0;
                 for (DVD d : DVDs) {
                     dvdStringsVerbose[i++] = d.toString();
@@ -82,7 +84,7 @@ public class DVDController {
         if (option == 1) {
             String[] params = ui.edit(current.toStringArray());
             DVD edited;
-            if (params.length == 5) {
+            if (params.length == 5) { //Generates a DVD with or without a note, based on if it was supplied or not.
                 edited = new DVD(params[0], params[1], params[2], params[3], params[4]);
             } else {
                 edited = new DVD(params[0], params[1], params[2], params[3], params[4], params[5]);
@@ -103,6 +105,5 @@ public class DVDController {
             ui.savingError();
         }
         ui.stop();
-        //databaseManager.writeListToFile(DVDs);
     }
 }
