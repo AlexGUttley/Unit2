@@ -3,21 +3,27 @@ package org.example.dao;
 import org.example.dto.DVD;
 
 import java.io.*;
-import java.sql.Date;
 import java.util.ArrayList;
 
-public class FileIO {
+public class FileIO implements DataIO {
 
     private static final String FILE_NAME = "DVDCollection.csv";
 
     public FileIO() {
     }
-    public ArrayList<DVD> getListFromFile() {
+
+    /**
+     * Reads the stored data representing the collection, and returns an ArrayList&lt;DVD&gt; containing all entries.
+     * Also perform relevant data marshalling operations to reverse steps taken to comply with the .csv format.
+     * @return The ArrayList of DVDs that represents the data in storage.
+     */
+    @Override
+    public ArrayList<DVD> readList() {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
-            String line = "placeholder";
-            line = reader.readLine();//reads twice to ensure the first line (categories) is not used
+            String line;
+            reader.readLine();//reads twice to ensure the first line (categories) is not used
             line = reader.readLine();
-            ArrayList<DVD> DVDs = new ArrayList<DVD>();
+            ArrayList<DVD> DVDs = new ArrayList<>();
             while (line != null) {
                 String[] lineArray = line.split(", ");
                 for (int i = 0; i < lineArray.length; i++) {
@@ -37,14 +43,26 @@ public class FileIO {
         return null;
     }
 
-    public boolean writeListToFile(ArrayList<DVD> DVDs) {
+    /**
+     * Writes the provided ArrayList of DVDs back into .&nbsp;csv format.
+     * Also performs relevant data marshalling operations to ensure compliance with the .csv format.
+     * @param DVDs The ArrayList of DVDs to be written into storage.
+     * @return True if write operation was successful; False if an error occurred.
+     */
+    @Override
+    public boolean writeList(ArrayList<DVD> DVDs) {
         try (PrintWriter pw = new PrintWriter(FILE_NAME)){
+            pw.println("DVD title, Release Date, MPAA Rating, Director, Studio, User's Note");
             for (DVD d: DVDs) {
-                String output = (d.getTitle() + ", " + d.getReleaseDate() + ", " + d.getRatingMPAA() + ", " +
-                        d.getDirector() + ", " + d.getStudio());
+                String output = (d.getTitle().replaceAll(",","*") + ", " +
+                        d.getReleaseDate().replaceAll(",","*") + ", " +
+                        d.getRatingMPAA().replaceAll(",","*") + ", " +
+                        d.getDirector().replaceAll(",","*") + ", " +
+                        d.getStudio().replaceAll(",","*"));
                 if (!d.getUserNote().equals("")) {
                     output += (", " + d.getUserNote());
                 }
+
                 pw.println(output);
             }
         } catch (FileNotFoundException e) {
@@ -55,8 +73,4 @@ public class FileIO {
         }
         return true;
     }
-
-
-    //Interfaces with a csv to read and write data that comprises the DVD collection.
-
 }

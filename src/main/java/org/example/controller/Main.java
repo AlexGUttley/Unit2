@@ -1,7 +1,5 @@
 package org.example.controller;
 
-import org.example.dto.DVD;
-
 public class Main {
 
     //Entry point class, no complex function.

@@ -39,12 +39,12 @@ public class DVD {
         return stringValue;
     }
 
-    public String toSimpleString(){
-        return title + releaseDate + ratingMPAA + director + studio;
-    }
-
     public String[] toStringArray(){
-        return new String[]{title, releaseDate, ratingMPAA, director, studio};
+        if (userNote.equals("")) {
+            return new String[]{title, releaseDate, ratingMPAA, director, studio};
+        } else {
+            return new String[]{title, releaseDate, ratingMPAA, director, studio, userNote};
+        }
     }
 
 

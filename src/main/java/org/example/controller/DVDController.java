@@ -1,38 +1,45 @@
 package org.example.controller;
 
+import org.example.dao.DataIO;
 import org.example.dao.FileIO;
 import org.example.dto.DVD;
+import org.example.ui.UserIO;
 import org.example.ui.UserIOCommandLine;
 
 import java.util.ArrayList;
 
 public class DVDController {
 
-    FileIO databaseManager;
+    DataIO databaseManager;
     ArrayList<DVD> DVDs;
-    UserIOCommandLine ui;
+    UserIO ui;
 
+    /**
+     * Main controller for the DVD collection interface program.
+     * Handles communication between file I/O, user interface, and data.
+     */
     //main controller, handles the program's logic
     public DVDController() {
         databaseManager = new FileIO();
-        DVDs = databaseManager.getListFromFile();
+        DVDs = databaseManager.readList();
         ui = new UserIOCommandLine();
     }
+
+    /**
+     * The main control loop for the program.
+     * Interfaces with the UI and file I/O, and performs all necessary logic to ensure correct program operation.
+     */
     public void start() {
 
-        for (DVD d : DVDs) {
-            System.out.println(d.toString());
-        }
         int choice = ui.greet();
-        int loopFailsafe = 10000;
 
-        while (choice != -1 && loopFailsafe > 0) { //User chose to add a DVD to collection
+        while (choice != -1) { //User chose to add a DVD to collection
 
             if (choice == 1){
                 DVDs.add(ui.add());
             } else if (choice == 2){ //User chose to search for a DVD in collection
                 DVD searchResult = this.search(ui.searchRequest());
-                int edit = 0;
+                int edit;
                 if (searchResult != null) {
                     ui.display(searchResult.toString());
                     edit = ui.editOptions();
@@ -42,17 +49,21 @@ public class DVDController {
                 String[] dvdStringsVerbose = new String[DVDs.size()]; //Disposable, refactor to array
                 int i = 0;
                 for (DVD d : DVDs) {
-                    dvdStringsVerbose[++i] = d.toString();
+                    dvdStringsVerbose[i++] = d.toString();
                 }
                 ui.list(dvdStringsVerbose);
             }
 
             choice = ui.reOption();
-            loopFailsafe--;
         }
         terminate();
     }
 
+    /**
+     * Given a specific search term, iterate through the titles of each DVD in memory, and return the first one that contains it.
+     * @param searchTerm A string representing the search term
+     * @return the DVD object returned by the search process, or null if no matching DVD is found.
+     */
     private DVD search(String searchTerm) {
         for (DVD d : DVDs) {
             if (d.getTitle().contains(searchTerm)) {
@@ -62,8 +73,12 @@ public class DVDController {
         return null;
     }
 
+    /**
+     * Interfaces with the UI to modify the data of a particular DVD in the collection.
+     * @param option An integer representing the option that has been selected. 1 = edit, 2 = remove, -1 = cancel
+     * @param current The DVD upon which the modifying operations are to take place.
+     */
     private void editOptions(int option, DVD current) {
-        //pick between the options. 1 = edit, 2 = remove, 0 = cancel
         if (option == 1) {
             String[] params = ui.edit(current.toStringArray());
             DVD edited;
@@ -74,16 +89,20 @@ public class DVDController {
             }
             DVDs.set(DVDs.indexOf(current), edited);
         } else if (option == 2) {
+            //Remove the DVD from the array
             DVDs.remove(current);
             ui.remove(current.getTitle());
         }
     }
 
+    /**
+     * Writes the contents of the DVD arraylist stored in memory to file, and ends the program.
+     */
     private void terminate(){
-        ui.stop();
-        if(!databaseManager.writeListToFile(DVDs)) {
+        if(!databaseManager.writeList(DVDs)) {
             ui.savingError();
         }
+        ui.stop();
         //databaseManager.writeListToFile(DVDs);
     }
 }
