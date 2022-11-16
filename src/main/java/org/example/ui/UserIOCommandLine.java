@@ -120,7 +120,7 @@ public class UserIOCommandLine implements UserIO {
         System.out.println("2. [Search] the database for an existing DVD");
         System.out.println("3. [List] all the DVDs currently in the collection");
         System.out.println("4. [Exit] the program");
-        String response = scanner.nextLine();
+        String response = scanner.nextLine().trim();
         int responseInt = 0;
         if (response.equalsIgnoreCase("Add") || response.equalsIgnoreCase("1")) {
             responseInt = 1;
@@ -130,8 +130,9 @@ public class UserIOCommandLine implements UserIO {
             responseInt = 3;
         } else if (response.equalsIgnoreCase("Exit") || response.equalsIgnoreCase("4")) {
             responseInt = -1;
+        } else {
+            System.out.println("Input not recognised, please try again.");
         }
-        System.out.println("Input not recognised, please try again.");
         return responseInt;
     }
 
