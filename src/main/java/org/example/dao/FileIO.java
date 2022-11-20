@@ -5,10 +5,17 @@ import org.example.dto.DVD;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Designed for use with DVDController, reads a .csv file into an arraylist and writes back when complete.
+ * An implementation of DataIO designed for a simple .csv file storage.
+ */
 public class FileIO implements DataIO {
 
     private static final String FILE_NAME = "DVDCollection.csv";
 
+    /**
+     * Constructor; no core functionality.
+     */
     public FileIO() {
     }
 

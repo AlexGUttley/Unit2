@@ -4,6 +4,9 @@ import org.example.dto.DVD;
 
 import java.util.ArrayList;
 
+/**
+ * Interface designed for data I/O functionality when used with DVDController class.
+ */
 public interface DataIO {
 
     /**

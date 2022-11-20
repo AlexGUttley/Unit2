@@ -154,7 +154,7 @@ public class DVD {
 
     /**
      * Gets user note. Will be an empty string if unsubstantiated
-     * @return yser note
+     * @return user note
      */
     public String getUserNote() {
         return userNote;

@@ -189,7 +189,7 @@ public class UserIOCommandLine implements UserIO {
                 dvdData[5] = scanner.nextLine().replaceAll(",","*");
                 System.out.println("DVD successfully edited.");
                 return dvdData;
-            } else if (response.equalsIgnoreCase("No")) { //Don't bother asking for a comment if there's nothing to edit and they don't want to
+            } else if (response.equalsIgnoreCase("No")) { //Don't ask for comment if there isn't one/they don't want to
                 System.out.println("DVD successfully edited.");
                 return dvdData;
             }
