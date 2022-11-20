@@ -168,28 +168,28 @@ public class UserIOCommandLine implements UserIO {
      * @return The edited data with the user's changes applied.
      */
     public String[] edit(String[] dvdData) { //Talk user through adding a new DVD
-        System.out.println("Please enter the new title of the DVD, or press enter to leave it unchanged.");
+        System.out.println("Please enter the new title of the DVD.");
         dvdData[0] = scanner.nextLine().replaceAll(",","*");
-        System.out.println("Please enter the DVD's release date, or press enter to leave it unchanged. (DD/MM/YYYY)");
+        System.out.println("Please enter the DVD's release date. (DD/MM/YYYY)");
         dvdData[1] = scanner.nextLine().replaceAll(",","*");
-        System.out.println("Please enter the MPAA rating of the DVD, or press enter to leave it unchanged.");
+        System.out.println("Please enter the MPAA rating of the DVD.");
         dvdData[2] = scanner.nextLine().replaceAll(",","*");
-        System.out.println("Please input the name of the DVD's director, or press enter to leave it unchanged.");
+        System.out.println("Please input the name of the DVD's director.");
         dvdData[3] = scanner.nextLine().replaceAll(",","*");
-        System.out.println("Please input the name of the production studio that produced the DVD, or press enter to leave it unchanged.");
+        System.out.println("Please input the name of the production studio that produced the DVD.");
         dvdData[4] = scanner.nextLine().replaceAll(",","*");
         while(true){ //Loops until user selects whether or not they would like to add a comment.
             String response = "";
-            if (dvdData[5].equals("")){
+            if (dvdData[5].equals("")){ //If there is no existing comment, ask if there needs to be one
                 System.out.println("Would you like to add a comment? [Yes], [No]");
                 response = scanner.nextLine();
             }
-            if (response.equalsIgnoreCase("Yes") || dvdData[5].equals("")){
+            if (response.equalsIgnoreCase("Yes") || !dvdData[5].equals("")){ //Add the comment when one is needed
                 System.out.println("Please enter the new comment, or press enter to leave it unchanged.");
                 dvdData[5] = scanner.nextLine().replaceAll(",","*");
                 System.out.println("DVD successfully edited.");
                 return dvdData;
-            } else if (response.equalsIgnoreCase("No")) {
+            } else if (response.equalsIgnoreCase("No")) { //Don't bother asking for a comment if there's nothing to edit and they don't want to
                 System.out.println("DVD successfully edited.");
                 return dvdData;
             }
